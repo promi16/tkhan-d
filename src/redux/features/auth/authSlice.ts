@@ -14,6 +14,7 @@ interface DecodedToken {
   iat: number;
 }
 
+
 const initialState: TAuth = {
   user: null,
   token: null,

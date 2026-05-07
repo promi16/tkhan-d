@@ -3,44 +3,23 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-import { loginNow } from "../../src/apiService";
-
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const isPasswordWeak = password.length > 0 && password.length < 8;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password.length < 8) {
       return;
     }
 
-    setLoading(true);
-
-    try {
-      const result = await loginNow(email, password);
-
-      if (result.ok) {
-        localStorage.setItem("myToken", result.data.accessToken);
-        console.log("Login Success:", result.data);
-
-        navigate("/admin-dashboard");
-      } else {
-        alert("ইমেইল বা পাসওয়ার্ড ভুল হয়েছে!");
-      }
-    } catch (error) {
-      console.error("API Error:", error);
-      alert("সার্ভারে সমস্যা হচ্ছে, আবার চেষ্টা করুন।");
-    } finally {
-      setLoading(false);
-    }
+    console.log("Login Success:", { email, password });
+    navigate("/admin-dashboard");
   };
 
   return (
@@ -127,26 +106,23 @@ const Login = () => {
 
             <button
               type="submit"
-              disabled={loading} // লোড হওয়ার সময় বাটন ক্লিক বন্ধ থাকবে
-              className={`group relative w-full ${loading ? "bg-gray-500" : "bg-[#1A1A1A] hover:bg-[#F26522]"} text-white font-bold py-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-[#F26522]/40 transform active:scale-[0.98] overflow-hidden`}
+              className="group relative w-full bg-[#1A1A1A] hover:bg-[#F26522] text-white font-bold py-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-[#F26522]/40 transform active:scale-[0.98] overflow-hidden"
             >
               <span className="relative cursor-pointer z-10 flex items-center justify-center gap-2">
-                {loading ? "Signing In..." : "Sign In to Panel"}
-                {!loading && (
-                  <svg
-                    className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                )}
+                Sign In to Panel
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
               </span>
               <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </button>

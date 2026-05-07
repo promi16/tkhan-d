@@ -24,28 +24,43 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
 }) => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [profilePic, setProfilePic] = useState(userIcon);
 
-  const notifications = [
+  const getTimeAgo = (timestamp: number) => {
+    const diff = Date.now() - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    if (minutes > 0) return `${minutes} min${minutes > 1 ? "s" : ""} ago`;
+    return "Just now";
+  };
+
+  const [notifications] = useState([
     {
       id: 1,
       text: "New seller approval request",
-      time: "2 min ago",
+      timestamp: Date.now() - 2 * 60000,
       icon: <Info size={14} />,
     },
     {
       id: 2,
       text: "Payment processed successfully",
-      time: "1 hour ago",
+      timestamp: Date.now() - 60 * 60000,
       icon: <CheckCircle size={14} />,
     },
     {
       id: 3,
       text: "System update scheduled",
-      time: "5 hours ago",
+      timestamp: Date.now() - 300 * 60000,
       icon: <Info size={14} />,
     },
-  ];
+  ]);
+
+  const [profilePic, setProfilePic] = useState(() => {
+    return localStorage.getItem("adminProfilePic") || userIcon;
+  });
 
   const handleSignOut = () => {
     localStorage.clear();
@@ -58,7 +73,9 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfilePic(reader.result as string);
+        const base64String = reader.result as string;
+        setProfilePic(base64String);
+        localStorage.setItem("adminProfilePic", base64String);
       };
       reader.readAsDataURL(file);
     }
@@ -111,7 +128,7 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
                       {notif.text}
                     </div>
                     <span className="text-[10px] text-gray-400 pl-6">
-                      {notif.time}
+                      {getTimeAgo(notif.timestamp)}
                     </span>
                   </DropdownMenuItem>
                 ))}

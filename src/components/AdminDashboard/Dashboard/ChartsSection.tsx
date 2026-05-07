@@ -29,8 +29,6 @@ interface ChartProps {
 export const ChartsSection: React.FC<ChartProps> = ({ data }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 font-inter">
-      {/* Bookings Trend Chart */}
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

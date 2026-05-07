@@ -16,7 +16,6 @@ const ReuserableCommonPart = ({ title, icon, children }: CommonPartProps) => {
             <h1 className="text-2xl font-sans">{title}</h1>
           </div>
 
-          {/* Content Area */}
           {children}
         </div>
       </div>

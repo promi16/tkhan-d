@@ -20,6 +20,7 @@ const rawBaseQuery = fetchBaseQuery({
   },
 });
 
+
 const baseQueryWithErrorHandler: typeof rawBaseQuery = async (
   args,
   api,

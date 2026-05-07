@@ -1,4 +1,4 @@
-// src/redux/types/merchant/merchantAddParcelType.ts
+
 export interface AddParcelPayload {
   type: "REGULAR" | "EXPRESS";
   name: string;

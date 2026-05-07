@@ -127,7 +127,6 @@ export const PayoutRequestTable = ({
                       <motion.tr
                         key={row.id}
                         variants={rowVariants}
-                        // "backgroundColor" change kore light orange shade set kora hoyeche
                         whileHover={{ backgroundColor: "#FFF7ED" }}
                         className="transition-colors"
                       >

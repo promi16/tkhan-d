@@ -1,7 +1,19 @@
-// components/TestimonialCard.jsx
 import { Star } from "lucide-react";
 
-const TestimonialCard = ({ testimonial }: any) => {
+interface Testimonial {
+  name: string;
+  role: string;
+  avatar: string;
+  message: string;
+  rating: number;
+  grayscale?: boolean;
+}
+
+interface TestimonialCardProps {
+  testimonial: Testimonial;
+}
+
+const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
   const { name, role, avatar, message, rating, grayscale } = testimonial;
 
   return (

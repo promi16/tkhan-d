@@ -21,8 +21,15 @@ export const UserBookings: React.FC<UserBookingsProps> = ({ user }) => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 xl:gap-12">
-        <div className="lg:col-span-4 space-y-8">
+      {/* Grid Breakpoint Logic:
+          - Default (Mobile): 1 column (Add-ons & Seller both below)
+          - md (Tablet/Small Laptop): 2 columns (Service & Add-ons side by side, Seller below)
+          - 2xl (Large Desktop): 3 columns (All 3 parts side by side)
+          Ami xl er jaygay 2xl diyechi jeno r o agei seller niche chole jay.
+      */}
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-12 gap-8 2xl:gap-12">
+        {/* Left Column: Service Info */}
+        <div className="2xl:col-span-4 space-y-8">
           <motion.div
             whileHover={{ scale: 1.02 }}
             className="bg-[#FF6B35] p-5 w-full md:max-w-[400px] rounded-2xl text-white shadow-lg shadow-orange-100"
@@ -95,7 +102,8 @@ export const UserBookings: React.FC<UserBookingsProps> = ({ user }) => {
           </div>
         </div>
 
-        <div className="lg:col-span-5 space-y-12 md:space-y-20 lg:ml-8">
+        {/* Middle Column: Add-Ons */}
+        <div className="2xl:col-span-5 space-y-12 md:space-y-20 2xl:ml-8">
           <div>
             <h4 className="font-medium text-black text-[16px] flex items-center gap-2 mb-6">
               <span className="text-[#FF6B35]">✦</span> Add-Ons Selected
@@ -173,8 +181,10 @@ export const UserBookings: React.FC<UserBookingsProps> = ({ user }) => {
           </div>
         </div>
 
-        <div className="lg:col-span-3">
-          <div className="bg-white px-6 md:px-10 py-5 rounded-2xl lg:mr-6 text-center border border-[#FFEDE8] shadow-sm">
+        {/* Right/Bottom Column: Seller */}
+        {/* md:col-span-2 ensures it takes full width on tablets, 2xl:col-span-3 brings it back to row on large screens */}
+        <div className="md:col-span-2 2xl:col-span-3">
+          <div className="bg-white px-6 md:px-10 py-5 rounded-2xl text-center border border-[#FFEDE8] shadow-sm max-w-sm mx-auto 2xl:mx-0 2xl:mt-0 mt-8">
             <p className="text-[15px] text-[#94A3B8] font-medium mb-4">
               Seller
             </p>
@@ -191,7 +201,7 @@ export const UserBookings: React.FC<UserBookingsProps> = ({ user }) => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-3 px-2  bg-[#FF6B35] text-white rounded-xl font-medium text-[12px] whitespace-nowrap tracking-[0.15em] md:tracking-[0.05em] cursor-pointer transition-all flex-shrink-0"
+              className="w-full py-3 px-2 bg-[#FF6B35] text-white rounded-xl font-medium text-[12px] whitespace-nowrap tracking-[0.15em] cursor-pointer transition-all"
             >
               View Details
             </motion.button>

@@ -30,9 +30,7 @@ const ClientDashboardNavbar: React.FC<NavbarProps> = ({
           isSidebarOpen ? "max-w-[1400px] mx-auto" : ""
         }`}
       >
-        {/* Left Section */}
         <div className="flex items-center space-x-4">
-          {/* Mobile Menu */}
           <Button
             variant="ghost"
             size="icon"
@@ -42,7 +40,6 @@ const ClientDashboardNavbar: React.FC<NavbarProps> = ({
             <Menu className="w-6 h-6" />
           </Button>
 
-          {/* Logo + Dashboard text */}
           <div className="flex items-center space-x-2 pl-0 md:pl-2 lg:pl-70">
             <div className="flex flex-col leading-tight">
               <span className="text-xs text-black">Dashboard</span>
@@ -53,10 +50,7 @@ const ClientDashboardNavbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Right Section */}
         <div className="flex items-center space-x-4">
-          {/* Dashboard Icon */}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -74,23 +68,19 @@ const ClientDashboardNavbar: React.FC<NavbarProps> = ({
             >
               <Link to="/admin-dashboard/settings">
                 <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-3xl hover:bg-[#FEF7ED] hover:text-black transition-colors cursor-pointer">
-                  {/* <IoMdSettings className="text-white hover:text-black transition-colors duration-300 cursor-pointer" /> */}
                   <span className="font-medium">Settings</span>
                 </DropdownMenuItem>
               </Link>
 
               <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-3xl hover:bg-[#FEF7ED] hover:text-black transition-colors cursor-pointer">
-                {/* <RiFileList3Fill className="text-white hover:text-black" /> */}
                 <span className="font-medium">Terms & Conditions</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-3xl hover:bg-[#FEF7ED] hover:text-black transition-colors cursor-pointer">
-                {/* <MdPrivacyTip className="text-white hover:text-black" /> */}
                 <span className="font-medium">Privacy Policy</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-3xl hover:bg-red-600 hover:text-black transition-colors cursor-pointer">
-                {/* <RiLogoutBoxRLine className="text-red-500" /> */}
                 <span className="font-medium">Sign Out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -101,6 +91,4 @@ const ClientDashboardNavbar: React.FC<NavbarProps> = ({
   );
 };
 
-
-
-export default ClientDashboardNavbar
+export default ClientDashboardNavbar;

@@ -20,21 +20,18 @@ const SupportPage: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-[#F9FAFB] font-inter pt-4">
       {!selectedTicket ? (
-        <div className="w-full pl-5 pr-70">
+        // Fixed Padding: Mobile e p-4, large screen e standard padding
+        <div className="w-full px-4 md:px-6 lg:pr-10">
           <SupportHeader />
-          <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-4 gap-5">
-            <div className="xl:col-span-4 w-full">
-              <div className="w-full overflow-x-auto bg-white rounded-xl shadow-sm border border-[#E3E3E4]">
-                <TicketTable onSelectTicket={setSelectedTicket} />
-              </div>
+          <div className="w-full mt-6">
+            <div className="w-full bg-white rounded-xl shadow-sm border border-[#E3E3E4]">
+              <TicketTable onSelectTicket={setSelectedTicket} />
             </div>
           </div>
         </div>
       ) : (
-        <div
-          className="-ml-30 -mt-7 rounded-xl"
-          style={{ width: "896px", minHeight: "1040px" }}
-        >
+        // Removed hardcoded width and negative margins for responsiveness
+        <div className="w-full max-w-5xl mx-auto px-4">
           <ConversationDetails
             ticket={selectedTicket}
             onBack={() => setSelectedTicket(null)}

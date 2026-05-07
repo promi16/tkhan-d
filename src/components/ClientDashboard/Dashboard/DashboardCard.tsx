@@ -45,7 +45,6 @@ const DashboardCard = () => {
         const isNegative = single.change.includes("-");
         const changeColor = isNegative ? "#E35A5F" : "#12CC1E";
 
-        // Determine color for amount
         let amountColor = "#000000";
         if (single.amount === "Successful") amountColor = "#4CAF50";
         if (single.amount === "7") amountColor = "#F3AA4B";
@@ -55,7 +54,6 @@ const DashboardCard = () => {
             key={single.title}
             className="w-full h-[198px] p-5 sm:p-6 bg-white rounded-[16px] flex flex-col justify-between shadow-sm space-y-4"
           >
-            {/* Top Row */}
             <div className="space-y-2">
               <div className="bg-[#F9F8F6] border-[#F6F4F2] w-[48px] h-[48px] rounded-[12px] p-[12px] flex items-center justify-center">
                 <img
@@ -73,7 +71,6 @@ const DashboardCard = () => {
               </h1>
             </div>
 
-            {/* Centered Amount */}
             <div className="space-y-1">
               <div className="flex items-center justify-start">
                 <h2
@@ -84,7 +81,6 @@ const DashboardCard = () => {
                 </h2>
               </div>
 
-              {/* Bottom Row */}
               <div className="flex items-center justify-start gap-1 text-sm font-Robot">
                 {single.change && (
                   <>

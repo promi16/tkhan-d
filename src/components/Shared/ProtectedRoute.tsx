@@ -1,4 +1,3 @@
-// src/components/ProtectedRoute.tsx
 import { useAppSelector } from "@/redux/hooks/redux-hook";
 import { Navigate, useLocation } from "react-router-dom";
 

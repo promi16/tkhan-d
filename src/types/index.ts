@@ -38,3 +38,4 @@ export type OrderHistoryItem = {
     status: string;
     orderDetails: OrderDetailsType;
 };
+

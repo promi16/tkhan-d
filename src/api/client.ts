@@ -1,5 +1,9 @@
 import axios from "axios";
 
-export const api = axios.create({
-    baseURL: "https://tkhan-backend.onrender.com",
+const api = axios.create({
+    baseURL: import.meta.env.VITE_API_ENDPOINT,
 });
+
+console.log("ENV:", import.meta.env);
+
+export default api;

@@ -22,11 +22,15 @@ const ReviewDetail: React.FC<Props> = ({
   onApproveSuccess,
 }) => {
   const mapSource = "/map.png";
-
   const googleMapsUrl = "https://www.google.com/maps?q=Manhattan,New+York";
 
   const handleOpenLiveLocation = () => {
     window.open(googleMapsUrl, "_blank");
+  };
+
+  const handleViewFile = (fileName: string) => {
+    alert(`Opening ${fileName}...`);
+    console.log(`Open file from: /assets/docs/${fileName}`);
   };
 
   return (
@@ -47,7 +51,7 @@ const ReviewDetail: React.FC<Props> = ({
         </button>
       </div>
 
-      <div className="bg-white p-10 rounded-[40px] border border-gray-100 shadow-sm">
+      <div className="bg-white p-10 rounded-[15px] border border-gray-100 shadow-sm">
         <div className="flex justify-between items-center mb-10">
           <div>
             <p className="text-[15px] text-gray-500 font-light mb-1">
@@ -88,6 +92,7 @@ const ReviewDetail: React.FC<Props> = ({
             </div>
           </div>
         </div>
+
         <hr className="text-gray-200 mb-7" />
 
         <div className="space-y-4">
@@ -95,7 +100,11 @@ const ReviewDetail: React.FC<Props> = ({
             KYC Documents & Service Location
           </p>
 
-          <DocItem label="ID Proof" file="driver_license_rachel.jpg" />
+          <DocItem
+            label="ID Proof"
+            file="driver_license_rachel.jpg"
+            onView={() => handleViewFile("driver_license_rachel.jpg")}
+          />
 
           <div className="relative group">
             <div
@@ -107,7 +116,6 @@ const ReviewDetail: React.FC<Props> = ({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 alt="Service Area Map"
               />
-
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                 <div className="bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg border border-gray-200 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
                   <MapPin size={16} className="text-[#E25822]" />
@@ -116,7 +124,6 @@ const ReviewDetail: React.FC<Props> = ({
                   </span>
                 </div>
               </div>
-
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm border border-gray-200 flex items-center gap-2">
                 <MapPin size={14} className="text-[#E25822]" />
                 <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700">
@@ -126,10 +133,15 @@ const ReviewDetail: React.FC<Props> = ({
             </div>
           </div>
 
-          <DocItem label="Certifications" file="pet_grooming_certificate.pdf" />
+          <DocItem
+            label="Certifications"
+            file="pet_grooming_certificate.pdf"
+            onView={() => handleViewFile("pet_grooming_certificate.pdf")}
+          />
           <DocItem
             label="Business License"
             file="grooming_business_license.pdf"
+            onView={() => handleViewFile("grooming_business_license.pdf")}
           />
         </div>
 
@@ -170,13 +182,17 @@ const InfoBox: React.FC<{
   </div>
 );
 
-const DocItem: React.FC<{ label: string; file: string }> = ({
-  label,
-  file,
-}) => (
-  <div className="flex items-center justify-between p-5 bg-white rounded-lg cursor-pointer shadow-sm hover:border-[#E25822]/20 transition-all">
+const DocItem: React.FC<{
+  label: string;
+  file: string;
+  onView: () => void;
+}> = ({ label, file, onView }) => (
+  <div
+    onClick={onView}
+    className="flex items-center justify-between p-5 bg-white rounded-lg cursor-pointer shadow-sm border border-transparent hover:border-[#E25822]/20 hover:bg-gray-50 transition-all active:scale-[0.99]"
+  >
     <div className="flex items-center gap-4">
-      <div className="p-3 bg-gray-50 rounded-md text-gray-400">
+      <div className="p-3 bg-gray-50 rounded-md text-gray-400 group-hover:bg-white">
         <FileText size={22} />
       </div>
       <div>
@@ -184,7 +200,7 @@ const DocItem: React.FC<{ label: string; file: string }> = ({
         <p className="text-md font-light text-gray-500">{file}</p>
       </div>
     </div>
-    <button className="text-md font-light text-black flex items-center gap-1 hover:text-black cursor-pointer">
+    <button className="text-md font-light text-black flex items-center gap-1 hover:text-[#E25822] cursor-pointer">
       View <ChevronDown size={18} />
     </button>
   </div>

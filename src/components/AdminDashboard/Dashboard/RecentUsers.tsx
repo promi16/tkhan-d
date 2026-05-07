@@ -62,8 +62,6 @@ export const RecentUsers: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="bg-white rounded-[12px] border border-gray-100 shadow-sm font-inter overflow-hidden"
     >
-      {/* Header */}
-
       <div className="px-10 pt-8 pb-4">
         <h3 className="text-[18px] font-semibold text-[#0f2f1d]">
           Recent User Registrations

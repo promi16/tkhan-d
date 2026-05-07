@@ -1,4 +1,3 @@
-// AdminSidebar.tsx
 import logo from "@/assets/Logo/LogoMain.svg";
 import { Badge } from "@/components/ui/badge";
 
@@ -16,9 +15,8 @@ import { HiOutlineUserMinus } from "react-icons/hi2";
 import { IconType } from "react-icons";
 import { IoSettingsOutline } from "react-icons/io5";
 
-// Types
 export interface SidebarItem {
-  icon: IconType; // changed from string to IconType
+  icon: IconType;
   label: string;
   href?: string;
   badge?: string;
@@ -30,7 +28,6 @@ export interface SidebarProps {
   onItemClick?: () => void;
 }
 
-// Sidebar Items
 const defaultSidebarItems: SidebarItem[] = [
   { icon: RxDashboard, label: "Dashboard", href: "/admin-dashboard/dashboard" },
   {
@@ -81,7 +78,6 @@ const ClientSidebar: React.FC<SidebarProps> = ({
       className="flex flex-col h-full bg-[#29424C]"
       style={{ boxShadow: "3px 4px 42.3px 0px #0000001A" }}
     >
-      {/* Logo */}
       <Link to="/admin-dashboard/dashboard">
         <div className="flex items-center justify-center p-2 sm:p-3 border-b border-[#C9C6C3] mt-1">
           <div className="flex justify-center mb-1">
@@ -90,7 +86,6 @@ const ClientSidebar: React.FC<SidebarProps> = ({
         </div>
       </Link>
 
-      {/* Navigation */}
       <nav className="flex-1 p-2 md:p-4">
         <div className="space-y-4 md:space-y-6">
           {items.map((item) => {
@@ -188,7 +183,6 @@ const ClientSidebar: React.FC<SidebarProps> = ({
         </div>
       </nav>
 
-      {/* Help & Support */}
       <div className="p-2 md:p-4 border-t border-[#C9C6C3]">
         <div className="flex justify-center mb-1">
           <img src={logo} alt="Logo" className="h-5 w-auto" />
@@ -205,7 +199,4 @@ const ClientSidebar: React.FC<SidebarProps> = ({
   );
 };
 
-
-
-
-export default ClientSidebar
+export default ClientSidebar;

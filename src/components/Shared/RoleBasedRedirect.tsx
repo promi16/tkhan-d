@@ -1,4 +1,3 @@
-// src/components/RoleBasedRedirect.tsx
 import { useAppSelector } from "@/redux/hooks/redux-hook";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

@@ -201,7 +201,7 @@ export const UserTable = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       key={u.id}
-                      // Changed hover:bg-slate-50/80 to hover:bg-orange-50/60 for the orange shade
+                     
                       className="hover:bg-orange-50/60 transition-colors group"
                     >
                       <td className="py-3 md:py-4 px-4 md:px-6">

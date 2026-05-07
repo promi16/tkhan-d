@@ -1,6 +1,6 @@
 type CommonHeadingProps = {
   title: string;
-  description?: string; // make description optional
+  description?: string;
 };
 
 const CommonHeading = ({ title, description }: CommonHeadingProps) => {

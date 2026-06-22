@@ -1,131 +1,153 @@
-import { ArrowLeft, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { X, ArrowLeft } from "lucide-react";
+import { Payment } from "../../../redux/features/payment/paymentTypes";
 
-interface Payment {
-  id: string;
-  ref: string;
-  amt: string;
-  method: string;
-  status: string;
-  date: string;
+interface PaymentDetailsProps {
+  onBack: () => void;
+  data: Payment | null;
 }
 
-export const PaymentDetails = ({
+type PaymentStatus = "SUCCEEDED" | "PENDING" | "FAILED" | "REFUNDED";
+
+interface StatusStyle {
+  bg: string;
+  text: string;
+  label: string;
+}
+
+const statusConfig: Record<PaymentStatus, StatusStyle> = {
+  SUCCEEDED: { bg: "bg-green-100", text: "text-green-800", label: "Paid" },
+  PENDING: { bg: "bg-amber-100", text: "text-amber-800", label: "Pending" },
+  FAILED: { bg: "bg-red-100", text: "text-red-800", label: "Failed" },
+  REFUNDED: { bg: "bg-blue-100", text: "text-blue-800", label: "Refunded" },
+};
+
+const convertToNumber = (value: string | number | undefined): number => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") return parseFloat(value) || 0;
+  return 0;
+};
+
+export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   onBack,
   data,
-}: {
-  onBack: () => void;
-
-  data?: Payment | null;
 }) => {
-  const details = data || {
-    id: "P001",
-    ref: "B001",
-    amt: "$150",
-    method: "Credit Card",
-    status: "Paid",
-    date: "2026-04-16",
-  };
+  if (!data) {
+    return (
+      <div className="p-6 text-center">
+        <p className="text-gray-500 text-sm">No payment data available.</p>
+        <button
+          onClick={onBack}
+          className="mt-4 px-4 py-2 bg-gray-100 rounded-lg text-sm font-medium"
+        >
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
+  const statusStyle: StatusStyle =
+    statusConfig[data.status as PaymentStatus] ?? statusConfig["PENDING"];
+  const numericAmount = convertToNumber(data.amount);
+  const booking = data.booking;
 
   return (
-    <div className="max-w-[800px] font-['Inter'] w-full px-2 sm:px-0">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-[#94A3B8] mb-4 md:mb-6 hover:text-[#1E293B] transition-all group"
-      >
-        <ArrowLeft
-          size={25}
-          className="cursor-pointer group-hover:-translate-x-1 ml-1 md:ml-3 transition-transform"
-        />{" "}
-      </button>
-      <p className="ml-2 -mt-2 mb-4 md:mb-5 font-medium text-lg md:text-xl">
-        Payment Details
-      </p>
-      <div className="bg-white rounded-[12px] border border-[#F1F5F9] shadow-sm overflow-hidden">
-        <div className="p-4 md:p-6 border-b border-[#F1F5F9] flex justify-between items-center">
-          <h2 className="text-[18px] md:text-[20px] font-bold text-[#1E293B]">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.25 }}
+      className="font-['Inter',_sans-serif] w-full max-w-[720px] lg:ml-5 py-8 px-4"
+    >
+      <div className="mb-5">
+        <button
+          onClick={onBack}
+          className="text-[#6B7280] hover:text-[#111827] transition-colors p-0.5 -ml-0.5 mb-2"
+        >
+          <ArrowLeft size={18} className="cursor-pointer" />
+        </button>
+        <h1 className="text-[19px] font-medium text-[#111827]">
+          Payment Details
+        </h1>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4">
+          <span className="text-[14px] font-medium text-[#111827]">
             Payment Details
-          </h2>
-          <X
-            size={24}
-            className="text-[#94A3B8] cursor-pointer"
+          </span>
+          <button
             onClick={onBack}
-          />
+            className="text-[#9CA3AF] hover:text-[#111827] transition-colors"
+          >
+            <X size={16} />
+          </button>
         </div>
-        <div className="px-5 md:px-10 py-5 md:py-7 space-y-6 md:space-y-10">
-          <div className="flex justify-between items-center">
+
+        <div className="h-px bg-[#F3F4F6]" />
+
+        <div className="p-6 space-y-5">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-[14px] md:text-[16px] font-light text-gray-700 mb-1">
-                Transaction ID
-              </p>
-              <p className="text-[16px] md:text-[18px] font-bold text-[#1E293B]">
-                {details.id}
+              <p className="text-[11px] text-[#9CA3AF] mb-1">Transaction ID</p>
+              <p className="text-[14px] font-medium text-[#111827]">
+                {data.id}
               </p>
             </div>
-
             <span
-              className={`px-4 py-1.5 rounded-full text-[11px] md:text-[12px] font-bold ${
-                details.status === "Paid"
-                  ? "bg-[#ECFDF5] text-[#10B981]"
-                  : "bg-[#FEF2F2] text-[#EF4444]"
-              }`}
+              className={`text-[11px] font-medium px-2.5 py-[3px] rounded-full ${statusStyle.bg} ${statusStyle.text}`}
             >
-              {details.status}
+              {statusStyle.label}
             </span>
           </div>
-          <hr className="text-gray-200" />
-          <div className="bg-gray-50 px-4 md:px-8 pb-6 md:pb-8">
-            <div className="pt-4 md:pt-5 rounded-2xl text-left">
-              <p className="text-[14px] md:text-[16px] text-[#64748B] font-light mb-1">
-                Amount
-              </p>
-              <p className="text-[32px] md:text-[48px] font-medium text-[#1E293B]">
-                {details.amt}
+
+          <div className="bg-[#F9FAFB] rounded-xl border border-[#F3F4F6] overflow-hidden">
+            <div className="px-6 py-6">
+              <p className="text-[11px] text-[#9CA3AF] mb-1.5">Amount</p>
+              <p className="text-[34px] font-bold text-[#111827] tracking-tight">
+                ${numericAmount.toFixed(0)}
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-y-6 md:gap-y-10 border-t border-gray-200 pt-6 md:pt-8">
+
+            <div className="h-px bg-[#E5E7EB]" />
+
+            <div className="px-6 py-6 grid grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <p className="text-[12px] md:text-[14px] text-gray-500 font-light mb-1">
+                <p className="text-[11px] text-[#9CA3AF] mb-1">
                   Booking Reference
                 </p>
-                <p className="text-[14px] md:text-[16px] font-medium text-[#1E293B]">
-                  {details.ref}
+                <p className="text-[13px] font-medium text-[#111827]">
+                  {booking?.bookingNumber ?? "—"}
                 </p>
               </div>
               <div>
-                <p className="text-[12px] md:text-[14px] text-gray-500 font-light  mb-1">
+                <p className="text-[11px] text-[#9CA3AF] mb-1">
                   Payment Method
                 </p>
-                <p className="text-[14px] md:text-[16px] font-medium text-[#1E293B]">
-                  {details.method}
+                <p className="text-[13px] font-medium text-[#111827]">
+                  Credit Card
                 </p>
               </div>
               <div>
-                <p className="text-[12px] md:text-[14px] text-gray-500 font-light mb-1">
-                  Date
-                </p>
-                <p className="text-[14px] md:text-[16px] font-medium text-[#1E293B]">
-                  {details.date}
+                <p className="text-[11px] text-[#9CA3AF] mb-1">Date</p>
+                <p className="text-[13px] font-medium text-[#111827]">
+                  {data.paidAt
+                    ? new Date(data.paidAt).toISOString().split("T")[0]
+                    : "—"}
                 </p>
               </div>
               <div>
-                <p className="text-[12px] md:text-[14px] text-gray-500 font-light mb-1">
-                  Status
-                </p>
-
-                <p
-                  className={`text-[12px] md:text-[14px] font-medium -ml-2 w-fit px-3 py-1 rounded-3xl ${
-                    details.status === "Paid"
-                      ? "text-[#016630] bg-green-100"
-                      : "text-[#F04438] bg-red-100"
-                  }`}
+                <p className="text-[11px] text-[#9CA3AF] mb-1">Status</p>
+                <span
+                  className={`text-[11px] font-medium px-[9px] py-0.5 rounded-full ${statusStyle.bg} ${statusStyle.text}`}
                 >
-                  {details.status}
-                </p>
+                  {statusStyle.label}
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

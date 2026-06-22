@@ -9,17 +9,8 @@ const RoleBasedRedirect = () => {
   useEffect(() => {
     if (user) {
       switch (user.role) {
-        case "admin":
+        case "ADMIN":
           navigate("/admin/dashboard");
-          break;
-        case "client":
-          navigate("/client/dashboard");
-          break;
-        case "distributor":
-          navigate("/distributor/dashboard");
-          break;
-        case "accountant":
-          navigate("/accountant/dashboard");
           break;
         default:
           navigate("/");

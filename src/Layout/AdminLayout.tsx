@@ -65,40 +65,32 @@ const AdminLayout = () => {
     );
   }, [pathname]);
 
-  const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
     <div className="flex h-screen overflow-hidden bg-[#F9FAFB]">
-      {/* Sidebar - Desktop */}
+      {/* ✅ Sidebar — full height, fixed, scrollable internally */}
       {!shouldHideSidebar() && (
-        <div
-          className="hidden lg:flex w-[280px] flex-col fixed top-0 left-0 z-30 bg-transparent"
-          style={{ height: "600px" }}
-        >
+        <div className="hidden lg:flex w-[280px] flex-col fixed top-0 left-0 z-30 h-screen">
           <AdminSidebar />
         </div>
       )}
 
-      {/* Main Content Area */}
+      {/* ✅ Right side — navbar + main content */}
       <div
-        className={`flex flex-col flex-1 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out ${
           !shouldHideSidebar() ? "lg:ml-[280px]" : ""
         }`}
       >
-        {/* Navbar */}
+        {/* ✅ Navbar — notificationCount সরানো হয়েছে */}
         {!shouldHideNavbar && (
           <div className="fixed top-0 left-0 lg:left-[280px] right-0 z-20 bg-white border-b border-gray-100">
             <AdminDashboardNavBar
-              onMobileMenuToggle={handleMobileMenuToggle}
-              notificationCount={3}
+              onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               isSidebarOpen={isSidebarOpen}
             />
           </div>
         )}
 
-        {/* Mobile Sidebar (Sheet) */}
+        {/* Mobile sidebar sheet */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetContent
             side="left"
@@ -108,13 +100,12 @@ const AdminLayout = () => {
           </SheetContent>
         </Sheet>
 
-        {/* Scrollable Page Content */}
+        {/* ✅ Main content — scrollable, sidebar fixed থাকবে */}
         <main
           className={`flex-1 overflow-y-auto mt-16 text-black bg-[#F9FAFB] ${
-            isSidebarOpen ? "p-4 md:p-6" : "p-4 md:p-8" // Padding ektu komano hoyeche width boro korar jonno
+            isSidebarOpen ? "p-4 md:p-6" : "p-4 md:p-8"
           }`}
         >
-          {/* max-w bariye 1800px kora holo jate StatsCard boro hoye jay */}
           <div className="max-w-[1800px] mx-auto w-full">
             <Outlet />
           </div>

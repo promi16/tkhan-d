@@ -33,7 +33,9 @@ export const ActionModal: React.FC<ModalProps> = ({
             </button>
             <div className="flex flex-col items-center text-center">
               <div
-                className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${type === "approve" ? "bg-[#ECFDF5]" : "bg-[#FEF2F2]"}`}
+                className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${
+                  type === "approve" ? "bg-[#ECFDF5]" : "bg-[#FEF2F2]"
+                }`}
               >
                 {type === "approve" ? (
                   <CheckCircle2 size={48} className="text-[#10B981]" />

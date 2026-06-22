@@ -4,29 +4,34 @@
 @import "swiper/css";
 
 @theme {
-
   --color-website-black: #212a31;
   --color-website-darkGray: #2e3944;
   --color-website-lightGray: #d3d9d4;
   --color-website-green: #124e66;
   --color-website-lightGreen: #748d92;
 
-
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Lora", serif;
-
 
   --color-primary-orange: #ef6820;
   --color-heading-blue: #194185;
   --color-paragraph-gray: #717688;
   --color-primary-border: #b2ddff;
 
-
   --color-card-background: linear-gradient(...), rgba(12, 16, 34, 0.6);
+}
+
+/* --- FIX: Only vertical scroll bar allowed --- */
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* Eita dynamic width/animation layout switch er somoy niche scrollbar aste dibe na */
 }
 
 @layer base {
   body {
     @apply font-sans;
+    overflow-x: hidden;
+    /* Double safety, jate kono element viewport cross na kore */
   }
 }

@@ -1,62 +1,55 @@
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import { User, TAuth, LoginResponse } from "@/redux/types/auth.type";
 import { authApi } from "./authApi";
 import { AppRootState } from "@/redux/store";
-
-interface DecodedToken {
-  id: string;
-  name: string;
-  email: string;
-  role: "admin" | "client" | "distributor" | "accountant";
-  exp: number;
-  iat: number;
-}
-
+import { LoginResponse, TAuth } from "./ auth.type";
 
 const initialState: TAuth = {
   user: null,
   token: null,
+  refreshToken: null,
 };
 
-const decodeToken = (token: string): User | null => {
-  try {
-    const decoded = jwtDecode<DecodedToken>(token);
-    return {
-      id: decoded.id,
-      name: decoded.name,
-      email: decoded.email,
-      role: decoded.role,
-    };
-  } catch (error) {
-    console.error("Error decoding token:", error);
-    return null;
-  }
+
+const clearAuthStorage = () => {
+  Cookies.remove("token");
+  Cookies.remove("refreshToken");
+  localStorage.removeItem("user");
+  localStorage.removeItem("adminProfilePic");
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<{ user: User; token: string }>) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      Cookies.set("token", action.payload.token, { expires: 1 });
-    },
     logOut: (state) => {
       state.user = null;
       state.token = null;
-      Cookies.remove("token");
-      localStorage.removeItem("user");
+      state.refreshToken = null;
+      clearAuthStorage(); // ✅ সব clear
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
     },
-    loadUserFromToken: (state) => {
+    loadUserFromStorage: (state) => {
       const token = Cookies.get("token");
-      if (token) {
-        const user = decodeToken(token);
-        if (user) {
-          state.user = user;
-          state.token = token;
+      const refreshToken = Cookies.get("refreshToken");
+      const storedUser = localStorage.getItem("user");
+
+      if (token && refreshToken && storedUser) {
+        try {
+          const user = JSON.parse(storedUser);
+          if (user.role === "ADMIN") {
+            state.user = user;
+            state.token = token;
+            state.refreshToken = refreshToken;
+          } else {
+            clearAuthStorage(); // ✅ non-admin হলেও সব clear
+          }
+        } catch (error) {
+          console.error("Error loading user from storage:", error);
+          clearAuthStorage(); // ✅ parse error হলেও clear
         }
       }
     },
@@ -65,26 +58,44 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
       (state, { payload }: PayloadAction<LoginResponse>) => {
-        const user = decodeToken(payload.data.accessToken);
-        if (user) {
-          state.user = user;
+        if (payload.success && payload.data) {
+          if (payload.data.user.role !== "ADMIN") {
+            console.error("Access denied: Admin role required");
+            return;
+          }
+          state.user = payload.data.user;
           state.token = payload.data.accessToken;
-          Cookies.set("token", payload.data.accessToken, { expires: 1 });
-          localStorage.setItem("user", JSON.stringify(user));
+          state.refreshToken = payload.data.refreshToken;
+          Cookies.set("token", payload.data.accessToken, {
+            expires: 7,
+            secure: true,
+            sameSite: "strict",
+          });
+          Cookies.set("refreshToken", payload.data.refreshToken, {
+            expires: 30,
+            secure: true,
+            sameSite: "strict",
+          });
+          localStorage.setItem("user", JSON.stringify(payload.data.user));
         }
       }
     );
-    builder.addMatcher(
-      authApi.endpoints.register.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload.data;
-      }
-    );
+
+    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
+      state.user = null;
+      state.token = null;
+      state.refreshToken = null;
+      clearAuthStorage();
+    });
   },
 });
 
-export const { setUser, logOut, loadUserFromToken } = authSlice.actions;
+export const { logOut, loadUserFromStorage } = authSlice.actions;
 export default authSlice.reducer;
 
 export const useCurrentToken = (state: AppRootState) => state.auth.token;
 export const useCurrentUser = (state: AppRootState) => state.auth.user;
+export const useCurrentRefreshToken = (state: AppRootState) =>
+  state.auth.refreshToken;
+export const useIsAuthenticated = (state: AppRootState) =>
+  !!state.auth.token && !!state.auth.user && state.auth.user?.role === "ADMIN";

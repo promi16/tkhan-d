@@ -3,6 +3,7 @@ import App from "../App";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import Signup from "@/pages/Signup";
+import Login from "@/pages/Login"; // ✅
 
 import AdminLayout from "@/Layout/AdminLayout";
 
@@ -11,6 +12,7 @@ import UsersPage from "@/pages/Admin/UsersPage";
 import SellerApprovalPage from "@/pages/Admin/SellerApprovalPage";
 import PaymentsPage from "@/pages/Admin/PaymentsPage";
 import SupportPage from "@/pages/Admin/SupportPage";
+import ServiceReviewPage from "@/pages/Admin/ServiceReviewPage";
 
 const routes = createBrowserRouter([
   {
@@ -18,7 +20,6 @@ const routes = createBrowserRouter([
     element: <App />,
     children: [
       {
-        // path: "/",
         index: true,
         element: <Home />,
       },
@@ -26,17 +27,17 @@ const routes = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ],
   },
 
   /* Admin Dashboard */
   {
     path: "/admin-dashboard",
-    element: (
-      // <AdminRoute>
-      <AdminLayout />
-      // </AdminRoute>
-    ),
+    element: <AdminLayout />,
     children: [
       { index: true, element: <AdminDashboardPage /> },
       { path: "dashboard", element: <AdminDashboardPage /> },
@@ -44,6 +45,7 @@ const routes = createBrowserRouter([
       { path: "seller-approval", element: <SellerApprovalPage /> },
       { path: "payments", element: <PaymentsPage /> },
       { path: "support", element: <SupportPage /> },
+      { path: "service-review", element: <ServiceReviewPage /> },
     ],
   },
 

@@ -41,7 +41,7 @@ export default function NotificationReuseable({
   onClose,
 }: NotificationPanelProps) {
   return (
-    <div className="w-full max-w-md bg-gradient-to-b from-[#0B1E22] to-[#112B2F] rounded-2xl shadow-2xl border border-[#2F4F4F] overflow-hidden">
+    <div className="w-full max-w-md bg-linear-to-b from-[#0B1E22] to-[#112B2F] rounded-2xl shadow-2xl border border-[#2F4F4F] overflow-hidden">
       {/* Header */}
       <div className="border-b border-[#3A5CFF]">
         <div className="flex items-center justify-between p-4">

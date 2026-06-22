@@ -5,6 +5,7 @@ import { authApi } from "./authApi";
 import { AppRootState } from "@/redux/store";
 import { LoginResponse, TAuth } from "./ auth.type";
 
+
 const initialState: TAuth = {
   user: null,
   token: null,

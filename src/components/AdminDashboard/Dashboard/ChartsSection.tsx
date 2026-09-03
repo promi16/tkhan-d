@@ -129,16 +129,15 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 font-inter">
       {/* Bookings Trend */}
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         whileHover={{
-          y: -6,
           boxShadow: "0 20px 40px -12px rgba(255,107,53,0.15)",
           transition: { duration: 0.25 },
         }}
         onHoverStart={() => setHoveredCard("bookings")}
         onHoverEnd={() => setHoveredCard(null)}
-        transition={{ duration: 0.45, type: "spring", stiffness: 110 }}
+        transition={{ duration: 0.35 }}
         className={cardClass}
       >
         <div className="flex justify-between items-center mb-5">
@@ -233,20 +232,17 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
 
       {/* Revenue Trend */}
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         whileHover={{
-          y: -6,
           boxShadow: "0 20px 40px -12px rgba(255,107,53,0.15)",
           transition: { duration: 0.25 },
         }}
         onHoverStart={() => setHoveredCard("revenue")}
         onHoverEnd={() => setHoveredCard(null)}
         transition={{
-          duration: 0.45,
-          delay: 0.1,
-          type: "spring",
-          stiffness: 110,
+          duration: 0.35,
+          delay: 0.08,
         }}
         className={cardClass}
       >
@@ -360,3 +356,4 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     </div>
   );
 };
+``

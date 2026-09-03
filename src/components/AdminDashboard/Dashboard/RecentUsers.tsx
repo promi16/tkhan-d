@@ -54,9 +54,9 @@ export const RecentUsers: React.FC<RecentUsersProps> = ({ users }) => {
   if (!users || users.length === 0) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="bg-white rounded-[12px] border border-gray-100 shadow-sm font-inter"
       >
         <div className="px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 pb-4">
@@ -76,9 +76,9 @@ export const RecentUsers: React.FC<RecentUsersProps> = ({ users }) => {
   return (
     <div className="flex flex-col gap-3 font-inter">
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="bg-white rounded-[12px] border border-gray-100 shadow-sm"
       >
         <div className="px-4 sm:px-6 lg:px-10 pt-5 sm:pt-6 lg:pt-8 pb-3 sm:pb-4">
@@ -98,10 +98,10 @@ export const RecentUsers: React.FC<RecentUsersProps> = ({ users }) => {
                 {currentUsers.map((user, idx) => (
                   <motion.tr
                     key={user.id ?? user.email}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ delay: idx * 0.05 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: idx * 0.04 }}
                     className="border-t border-gray-50 hover:bg-orange-50/30 transition-colors group"
                   >
                     <td className="pl-3 sm:pl-4 lg:pl-10 pr-2 py-3 sm:py-4 lg:py-5">

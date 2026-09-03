@@ -201,7 +201,6 @@ export const baseApi = createApi({
     "Payments",
     "Notifications",
     "Tickets",
-    "PayoutRequests",
     "Reviews",
     "Bookings",
     "Categories",

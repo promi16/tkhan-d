@@ -1,6 +1,5 @@
 // src/pages/AdminDashboardPage.tsx
 import type { RecentUser } from "@/redux/features/dashboard/dashboardType";
-import { motion } from "framer-motion";
 import {
   Users,
   Briefcase,
@@ -44,11 +43,7 @@ const AdminDashboardPage = () => {
 
   if (isLoading) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="bg-[#F9FAFB] min-h-screen w-full p-4 md:p-8 lg:p-10"
-      >
+      <div className="bg-[#F9FAFB] w-full overflow-hidden">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
           {[...Array(4)].map((_, i) => (
             <div
@@ -66,21 +61,17 @@ const AdminDashboardPage = () => {
           ))}
         </div>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-          <div className="h-[380px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
-          <div className="h-[380px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
+          <div className="h-[360px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
+          <div className="h-[360px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
         </div>
-        <div className="h-[500px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
-      </motion.div>
+        <div className="h-[320px] bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse" />
+      </div>
     );
   }
 
   if (hasError) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="bg-[#F9FAFB] min-h-screen w-full flex items-center justify-center p-4"
-      >
+      <div className="bg-[#F9FAFB] min-h-full w-full flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-md text-center">
           <div className="text-6xl mb-4">⚠️</div>
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -97,7 +88,7 @@ const AdminDashboardPage = () => {
             Retry
           </button>
         </div>
-      </motion.div>
+      </div>
     );
   }
 
@@ -105,13 +96,8 @@ const AdminDashboardPage = () => {
   const trends = trendsData?.data;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="bg-[#F9FAFB] min-h-screen w-full overflow-x-hidden"
-    >
-      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
+    <div className="bg-[#F9FAFB] w-full overflow-hidden">
+      <div className="w-full">
         <StatsGrid>
           <StatsCard
             title="Total Users"
@@ -147,7 +133,7 @@ const AdminDashboardPage = () => {
           />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

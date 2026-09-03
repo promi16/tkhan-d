@@ -12,9 +12,9 @@ const SupportPage: React.FC = () => {
   const tickets: Ticket[] = data?.data ?? [];
 
   return (
-    <div className="w-full min-h-screen bg-[#F9FAFB] font-inter pt-4">
+    <div className="w-full bg-[#F9FAFB] font-inter">
       {!selectedTicket ? (
-        <div className="w-full px-4 md:px-6 lg:px-8">
+        <div className="w-full">
           <SupportHeader />
 
           <div className="w-full mt-6">
@@ -27,7 +27,7 @@ const SupportPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="w-full lg:w-[min(1090px,100%)] px-4 md:px-6 lg:px-8">
+        <div className="w-full lg:w-[min(1090px,100%)]">
           <ConversationDetails
             ticket={selectedTicket}
             onBack={() => setSelectedTicket(null)}

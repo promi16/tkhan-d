@@ -125,9 +125,9 @@ const ManageCategory = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-[#FAFAFA] p-4 sm:p-6 md:p-8 lg:p-12 font-sans"
+      className="w-full bg-[#FAFAFA] font-sans"
     >
-      <div className="max-w-[1300px] mx-auto">
+      <div className="w-full">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}

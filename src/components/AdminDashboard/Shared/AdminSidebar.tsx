@@ -84,7 +84,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
       initial="hidden"
       animate="visible"
       variants={sidebarVariants}
-      className="flex flex-col bg-white border-r border-gray-100 font-inter w-full h-screen overflow-y-auto"
+      className="flex flex-col bg-white border-r border-gray-100 font-inter w-full h-full overflow-y-auto"
       style={{ boxShadow: "4px 0px 15px rgba(0,0,0,0.03)" }}
     >
       <div className="p-5 sm:p-6 md:p-8 mb-2 shrink-0">

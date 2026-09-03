@@ -1,5 +1,5 @@
 
-const BASE_URL: string = 'http://localhost:5000/api';
+const BASE_URL: string = import.meta.env.VITE_API_ENDPOINT;
 
 interface User {
     id: number;

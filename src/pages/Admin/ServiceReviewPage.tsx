@@ -54,8 +54,8 @@ const ServiceReviewPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#F9FAFB] font-inter pt-4">
-      <div className="w-full px-4 md:px-6 lg:px-8">
+    <div className="w-full bg-[#F9FAFB] font-inter">
+      <div className="w-full">
         <ServiceReviewHeader />
 
         <div className="w-full mt-6">

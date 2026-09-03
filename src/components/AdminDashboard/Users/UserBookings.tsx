@@ -131,8 +131,8 @@ export const UserBookings: React.FC<UserBookingsProps> = ({ userId }) => {
 
   return (
     <>
-      {/* ── Outer wrapper: max-w-[1200px], full width on sm/md ── */}
-      <div className="w-full max-w-[1200px] lg:ml-1 mx-auto space-y-4 sm:space-y-5 md:space-y-6">
+      {/* ── Outer wrapper ── */}
+      <div className="w-full space-y-4 sm:space-y-5 md:space-y-6">
         {bookings.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}

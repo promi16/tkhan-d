@@ -9,7 +9,7 @@ const Signup = () => {
   const [showRetypePassword, setShowRetypePassword] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center  text-white">
+    <div className="h-full flex items-center justify-center text-white">
       <div className="max-w-5xl w-full   flex overflow-hidden">
         <div className="hidden md:flex w-1/2  items-center justify-center">
           <img

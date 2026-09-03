@@ -57,7 +57,7 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.25 }}
-      className="font-['Inter',_sans-serif] w-full max-w-[720px] lg:ml-5 py-8 px-4"
+      className="font-['Inter',_sans-serif] w-full max-w-[720px]"
     >
       <div className="mb-5">
         <button

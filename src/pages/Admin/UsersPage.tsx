@@ -106,9 +106,9 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="w-full max-w-[1485px] mx-auto px-4 sm:px-6 overflow-hidden">
+    <div className="w-full">
       {!selectedUserId && (
-        <div className="mb-8 mt-4">
+        <div className="mb-8">
           <div className="flex items-center gap-8 w-fit">
             {mainTabs.map((tab) => (
               <button
@@ -162,7 +162,6 @@ const UsersPage = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="pt-4"
                 >
                   <button
                     onClick={() => {

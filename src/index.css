@@ -23,17 +23,24 @@
   --color-card-background: linear-gradient(...), rgba(12, 16, 34, 0.6);
 }
 
-/* --- FIX: Only vertical scroll bar allowed --- */
-html {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  /* Eita dynamic width/animation layout switch er somoy niche scrollbar aste dibe na */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Prevent Radix/react-remove-scroll from shifting layout when menus open */
+body[data-scroll-locked],
+html body[data-scroll-locked] {
+  --removed-body-scroll-bar-size: 0px !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
 }
 
 @layer base {
   body {
     @apply font-sans;
-    overflow-x: hidden;
-    /* Double safety, jate kono element viewport cross na kore */
   }
 }

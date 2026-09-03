@@ -66,23 +66,23 @@ const AdminLayout = () => {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F9FAFB]">
+    <div className="flex h-full overflow-hidden bg-[#F9FAFB]">
       {/* ✅ Sidebar — full height, fixed, scrollable internally */}
       {!shouldHideSidebar() && (
-        <div className="hidden lg:flex w-[280px] flex-col fixed top-0 left-0 z-30 h-screen">
+        <div className="hidden lg:flex w-[280px] flex-col fixed top-0 left-0 z-30 h-full">
           <AdminSidebar />
         </div>
       )}
 
       {/* ✅ Right side — navbar + main content */}
       <div
-        className={`flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out ${
+        className={`flex flex-col flex-1 h-full min-h-0 overflow-hidden ${
           !shouldHideSidebar() ? "lg:ml-[280px]" : ""
         }`}
       >
         {/* ✅ Navbar — notificationCount সরানো হয়েছে */}
         {!shouldHideNavbar && (
-          <div className="fixed top-0 left-0 lg:left-[280px] right-0 z-20 bg-white border-b border-gray-100">
+          <div className="fixed top-0 left-0 lg:left-[280px] right-0 z-50 bg-white border-b border-gray-100">
             <AdminDashboardNavBar
               onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               isSidebarOpen={isSidebarOpen}
@@ -101,11 +101,7 @@ const AdminLayout = () => {
         </Sheet>
 
         {/* ✅ Main content — scrollable, sidebar fixed থাকবে */}
-        <main
-          className={`flex-1 overflow-y-auto mt-16 text-black bg-[#F9FAFB] ${
-            isSidebarOpen ? "p-4 md:p-6" : "p-4 md:p-8"
-          }`}
-        >
+        <main className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden [overflow-anchor:none] pt-[88px] md:pt-[112px] px-4 md:px-6 lg:px-8 pb-6 md:pb-8 text-black bg-[#F9FAFB]">
           <div className="max-w-[1800px] mx-auto w-full">
             <Outlet />
           </div>

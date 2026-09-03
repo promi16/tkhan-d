@@ -82,7 +82,7 @@ const SellerApprovalPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-4 sm:mt-6 md:mt-8 ml-4 sm:ml-6 md:ml-8 mr-4 sm:mr-6 md:mr-8 bg-[#FBFBFB] min-h-screen font-['Inter'] selection:bg-orange-100 selection:text-[#E25822]">
+    <div className="w-full bg-[#FBFBFB] font-['Inter'] selection:bg-orange-100 selection:text-[#E25822]">
       <AnimatePresence mode="wait">
         {view === "list" ? (
           <motion.div
@@ -92,9 +92,9 @@ const SellerApprovalPage: React.FC = () => {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-1 sm:mb-1.5 md:mb-2 text-gray-900 tracking-tight">
+            <h1 className="text-xl md:text-2xl font-bold text-[#1E293B] tracking-tight mb-1">
               Seller Approval (KYC)
-            </h2>
+            </h1>
             <p className="text-xs sm:text-sm md:text-base text-gray-500 font-normal mb-6 sm:mb-8 md:mb-10">
               Review and manage groomer applications
             </p>

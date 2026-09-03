@@ -6,7 +6,7 @@ const ServiceReviewHeader: React.FC = () => (
     initial={{ opacity: 0, y: -6 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.45 }}
-    className="mb-5 -mt-3"
+    className="mb-5"
   >
     <h1 className="text-xl md:text-2xl font-bold text-[#1A1A1A]">
       Service Reviews

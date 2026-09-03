@@ -1,11 +1,7 @@
 import Login from "./Login";
 
 const Home = () => {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
+  return <Login />;
 };
 
 export default Home;

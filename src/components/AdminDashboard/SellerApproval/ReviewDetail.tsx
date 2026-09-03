@@ -34,7 +34,7 @@ const ReviewDetail: React.FC<Props> = ({
       <motion.div
         initial={{ x: 20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        className="max-w-4xl font-['Inter'] px-4 sm:px-6 md:px-0"
+        className="max-w-4xl font-['Inter']"
       >
         <div className="flex justify-between items-center mb-6 sm:mb-7 md:mb-8">
           <button
@@ -112,7 +112,7 @@ const ReviewDetail: React.FC<Props> = ({
     <motion.div
       initial={{ x: 20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="max-w-4xl font-['Inter'] px-3 sm:px-4 md:px-0"
+      className="max-w-4xl font-['Inter']"
     >
       <div className="flex justify-between items-center mb-6 sm:mb-7 md:mb-8">
         <button

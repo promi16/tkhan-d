@@ -51,18 +51,15 @@ const StatsCardComponent: React.FC<StatsCardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       whileHover={{
-        y: -8,
-        scale: 1.02,
         boxShadow: "0 20px 40px -12px rgba(255, 107, 53, 0.2)",
         borderColor: "rgba(255, 107, 53, 0.3)",
       }}
       transition={{
-        duration: 0.4,
+        duration: 0.35,
         ease: [0.23, 1, 0.32, 1],
-        scale: { type: "spring", stiffness: 300, damping: 20 },
       }}
       className="group bg-white p-4 sm:p-5 md:p-6 lg:p-8 rounded-[16px] sm:rounded-[18px] md:rounded-[20px] border border-gray-100 flex items-center justify-between shadow-sm font-inter w-full min-w-0 h-full relative overflow-hidden transition-colors hover:bg-gradient-to-br hover:from-white hover:to-[#FFF4EF]/30"
     >
@@ -78,8 +75,8 @@ const StatsCardComponent: React.FC<StatsCardProps> = ({
       <div className="flex flex-col gap-1 sm:gap-1.5 overflow-hidden relative z-10 min-w-0 flex-1">
         <motion.p
           className="text-gray-400 text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] font-medium tracking-tight truncate"
-          initial={{ x: -10, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
         >
           {title}
@@ -87,9 +84,9 @@ const StatsCardComponent: React.FC<StatsCardProps> = ({
 
         <motion.h3
           className="text-[20px] sm:text-[22px] md:text-[24px] lg:text-[32px] font-bold text-black leading-tight whitespace-nowrap"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.15 }}
         >
           {displayValue}
         </motion.h3>
@@ -97,8 +94,8 @@ const StatsCardComponent: React.FC<StatsCardProps> = ({
         {trend && (
           <motion.div
             className="flex items-center gap-1 mt-1"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
             <span
@@ -178,9 +175,9 @@ export const StatsGrid: React.FC<{ children: React.ReactNode }> = ({
       >
         {React.Children.map(children, (child, index) => (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.06, duration: 0.3 }}
           >
             {child}
           </motion.div>

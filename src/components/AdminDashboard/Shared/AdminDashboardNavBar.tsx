@@ -10,12 +10,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import userIcon from "@/assets/icons/user.svg";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/redux/features/auth/authSlice";
@@ -111,6 +105,8 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
   const dispatch = useDispatch();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const notifRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   const [profilePic, setProfilePic] = useState<string>(userIcon);
   const [optimisticReadIds, setOptimisticReadIds] = useState<Set<string>>(
@@ -119,7 +115,8 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [allNotifications, setAllNotifications] = useState<Notification[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const [markAllRead, { isLoading: isMarkingAll }] =
     useMarkAllNotificationsReadMutation();
@@ -216,10 +213,34 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
   }, [extraPageData, currentPage]);
 
   useEffect(() => {
-    if (!isDropdownOpen) {
+    if (!isNotifOpen) {
       setCurrentPage(1);
     }
-  }, [isDropdownOpen]);
+  }, [isNotifOpen]);
+
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (isNotifOpen && !notifRef.current?.contains(target)) {
+        setIsNotifOpen(false);
+      }
+      if (isProfileOpen && !profileRef.current?.contains(target)) {
+        setIsProfileOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsNotifOpen(false);
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isNotifOpen, isProfileOpen]);
 
   const displayNotifications = allNotifications.map((notif) => {
     if (optimisticReadIds.has(notif.id)) {
@@ -273,7 +294,10 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
     }
   };
 
-  const handleMarkOneRead = async (notification: Notification, e: Event) => {
+  const handleMarkOneRead = async (
+    notification: Notification,
+    e: React.MouseEvent,
+  ) => {
     if (notification.readAt !== null) return;
     e.preventDefault();
     e.stopPropagation();
@@ -323,7 +347,7 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
 
   return (
     <div className="bg-white border-b border-[#F3F4F6]">
-      <header className="flex items-center justify-between h-16 sm:h-18 md:h-20 px-3 sm:px-5 md:px-10 transition-all duration-300 w-full">
+      <header className="flex items-center justify-between h-16 md:h-20 px-4 md:px-6 lg:px-8 w-full overflow-visible">
         <div className="flex items-center">
           <Button
             variant="ghost"
@@ -336,165 +360,184 @@ const AdminDashboardNavBar: React.FC<NavbarProps> = ({
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-6 mr-5 sm:mr-10 md:mr-2 lg:mr-[72px]">
-          <DropdownMenu onOpenChange={setIsDropdownOpen}>
-            <DropdownMenuTrigger asChild>
-              <div className="p-2 sm:p-2.5 md:p-3 bg-[#FF6B35] rounded-lg sm:rounded-xl text-white relative cursor-pointer shadow-sm active:scale-95 transition-transform outline-none">
-                <Bell
-                  size={16}
-                  className={`sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 transition-opacity ${
-                    isFetchingPage1 ? "opacity-60" : "opacity-100"
-                  }`}
-                />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-red-500 text-white text-[9px] sm:text-[10px] font-bold rounded-full border-2 border-white shadow-sm">
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </span>
-                )}
-              </div>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              className="w-72 md:w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 p-2 mt-2 overflow-hidden"
+          <div ref={notifRef} className="relative">
+            <button
+              type="button"
+              aria-label="Notifications"
+              aria-expanded={isNotifOpen}
+              onClick={() => {
+                setIsNotifOpen((open) => !open);
+                setIsProfileOpen(false);
+              }}
+              className="p-2 sm:p-2.5 md:p-3 bg-[#FF6B35] rounded-lg sm:rounded-xl text-white relative cursor-pointer shadow-sm outline-none"
             >
-              <div className="px-4 py-3 border-b border-gray-50 flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-gray-800">Notifications</span>
+              <Bell
+                size={16}
+                className={`sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 transition-opacity ${
+                  isFetchingPage1 ? "opacity-60" : "opacity-100"
+                }`}
+              />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-red-500 text-white text-[9px] sm:text-[10px] font-bold rounded-full border-2 border-white shadow-sm">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              )}
+            </button>
+
+            {isNotifOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50 w-72 md:w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 p-2 overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-50 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-gray-800">Notifications</span>
+                    {unreadCount > 0 && (
+                      <span className="text-[10px] bg-[#FF6B35]/10 text-[#FF6B35] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                        {unreadCount} New
+                      </span>
+                    )}
+                  </div>
                   {unreadCount > 0 && (
-                    <span className="text-[10px] bg-[#FF6B35]/10 text-[#FF6B35] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                      {unreadCount} New
-                    </span>
+                    <button
+                      type="button"
+                      onClick={handleMarkAllRead}
+                      disabled={isMarkingAll}
+                      className="text-[11px] text-[#FF6B35] hover:underline font-semibold disabled:opacity-50 cursor-pointer"
+                    >
+                      {isMarkingAll ? "Marking..." : "Mark all read"}
+                    </button>
                   )}
                 </div>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={handleMarkAllRead}
-                    disabled={isMarkingAll}
-                    className="text-[11px] text-[#FF6B35] hover:underline font-semibold disabled:opacity-50 cursor-pointer"
-                  >
-                    {isMarkingAll ? "Marking..." : "Mark all read"}
-                  </button>
-                )}
-              </div>
 
-              <div
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="max-h-[380px] overflow-y-auto scroll-smooth
-                  [&::-webkit-scrollbar]:w-1.5
-                  [&::-webkit-scrollbar-track]:bg-transparent
-                  [&::-webkit-scrollbar-thumb]:bg-gray-200
-                  [&::-webkit-scrollbar-thumb]:rounded-full
-                  hover:[&::-webkit-scrollbar-thumb]:bg-gray-300"
-              >
-                {isLoading ? (
-                  <div className="flex items-center justify-center py-10 text-gray-400 gap-2">
-                    <Loader2 size={18} className="animate-spin" />
-                    <span className="text-sm">Loading...</span>
-                  </div>
-                ) : displayNotifications.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-10 text-gray-400 gap-2">
-                    <BellOff size={28} />
-                    <span className="text-sm">No notifications</span>
-                  </div>
-                ) : (
-                  <>
-                    {displayNotifications.map((notif) => (
-                      <DropdownMenuItem
-                        key={notif.id}
-                        onSelect={(e) => handleMarkOneRead(notif, e)}
-                        className={`flex flex-col items-start gap-1 px-4 py-3 rounded-xl cursor-pointer transition-colors focus:bg-[#FF6B35]/5 border-none outline-none mb-1 ${
-                          notif.readAt === null
-                            ? "bg-[#FF6B35]/5 hover:bg-[#FF6B35]/10"
-                            : "hover:bg-gray-50"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <span className="text-[#FF6B35] shrink-0">
-                            {getNotificationIcon(notif.type)}
+                <div
+                  ref={scrollRef}
+                  onScroll={handleScroll}
+                  className="max-h-[380px] overflow-y-auto overscroll-contain
+                    [&::-webkit-scrollbar]:w-1.5
+                    [&::-webkit-scrollbar-track]:bg-transparent
+                    [&::-webkit-scrollbar-thumb]:bg-gray-200
+                    [&::-webkit-scrollbar-thumb]:rounded-full
+                    hover:[&::-webkit-scrollbar-thumb]:bg-gray-300"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center py-10 text-gray-400 gap-2">
+                      <Loader2 size={18} className="animate-spin" />
+                      <span className="text-sm">Loading...</span>
+                    </div>
+                  ) : displayNotifications.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-gray-400 gap-2">
+                      <BellOff size={28} />
+                      <span className="text-sm">No notifications</span>
+                    </div>
+                  ) : (
+                    <>
+                      {displayNotifications.map((notif) => (
+                        <button
+                          type="button"
+                          key={notif.id}
+                          onClick={(e) => handleMarkOneRead(notif, e)}
+                          className={`flex flex-col items-start gap-1 px-4 py-3 rounded-xl cursor-pointer transition-colors w-full text-left mb-1 ${
+                            notif.readAt === null
+                              ? "bg-[#FF6B35]/5 hover:bg-[#FF6B35]/10"
+                              : "hover:bg-gray-50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 w-full">
+                            <span className="text-[#FF6B35] shrink-0">
+                              {getNotificationIcon(notif.type)}
+                            </span>
+                            <span className="text-[13px] font-semibold text-gray-800 flex-1 leading-snug">
+                              {notif.title}
+                            </span>
+                            {notif.readAt === null && (
+                              <span className="w-2 h-2 rounded-full bg-[#FF6B35] shrink-0" />
+                            )}
+                          </div>
+                          <p className="text-[12px] text-gray-500 pl-6 leading-snug line-clamp-2">
+                            {notif.body}
+                          </p>
+                          <span className="text-[10px] text-gray-400 pl-6 mt-0.5">
+                            {getTimeAgo(notif.createdAt)}
                           </span>
-                          <span className="text-[13px] font-semibold text-gray-800 flex-1 leading-snug">
-                            {notif.title}
-                          </span>
-                          {notif.readAt === null && (
-                            <span className="w-2 h-2 rounded-full bg-[#FF6B35] shrink-0" />
-                          )}
+                        </button>
+                      ))}
+
+                      {isFetchingExtra && (
+                        <div className="flex items-center justify-center py-4 text-gray-400 gap-2">
+                          <Loader2 size={14} className="animate-spin" />
+                          <span className="text-xs">Loading more...</span>
                         </div>
-                        <p className="text-[12px] text-gray-500 pl-6 leading-snug line-clamp-2">
-                          {notif.body}
+                      )}
+
+                      {!hasMore && displayNotifications.length > 0 && (
+                        <p className="text-center text-[11px] text-gray-300 py-3">
+                          You're all caught up!
                         </p>
-                        <span className="text-[10px] text-gray-400 pl-6 mt-0.5">
-                          {getTimeAgo(notif.createdAt)}
-                        </span>
-                      </DropdownMenuItem>
-                    ))}
+                      )}
+                    </>
+                  )}
+                </div>
 
-                    {isFetchingExtra && (
-                      <div className="flex items-center justify-center py-4 text-gray-400 gap-2">
-                        <Loader2 size={14} className="animate-spin" />
-                        <span className="text-xs">Loading more...</span>
-                      </div>
-                    )}
-
-                    {!hasMore && displayNotifications.length > 0 && (
-                      <p className="text-center text-[11px] text-gray-300 py-3">
-                        You're all caught up!
-                      </p>
-                    )}
-                  </>
-                )}
+                <div className="p-2 border-t border-gray-50">
+                  {isFetchingPage1 && !isLoading && (
+                    <div className="flex items-center justify-center gap-1 pb-1">
+                      <Loader2 size={10} className="animate-spin text-gray-300" />
+                      <span className="text-[10px] text-gray-300">
+                        Updating...
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="p-2 border-t border-gray-50">
-                {isFetchingPage1 && !isLoading && (
-                  <div className="flex items-center justify-center gap-1 pb-1">
-                    <Loader2 size={10} className="animate-spin text-gray-300" />
-                    <span className="text-[10px] text-gray-300">
-                      Updating...
-                    </span>
-                  </div>
-                )}
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            )}
+          </div>
 
           <div className="h-10 w-[1.5px] bg-gray-200 mx-1 hidden md:block" />
 
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="relative group cursor-pointer outline-none">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border-2 border-white shadow-md overflow-hidden bg-gray-50">
-                    <img
-                      src={profilePic}
-                      alt="User"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent
-                align="end"
-                className="bg-[#FF6B35] text-white w-56 shadow-2xl rounded-2xl border border-white/20 p-2 mt-2"
+            <div ref={profileRef} className="relative">
+              <button
+                type="button"
+                aria-label="Profile menu"
+                aria-expanded={isProfileOpen}
+                onClick={() => {
+                  setIsProfileOpen((open) => !open);
+                  setIsNotifOpen(false);
+                }}
+                className="relative group cursor-pointer outline-none rounded-full"
               >
-                <DropdownMenuItem
-                  onSelect={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl border-none hover:bg-white hover:text-[#FF6B35] transition-all cursor-pointer mb-1"
-                >
-                  <ImagePlus size={18} />
-                  <span className="font-medium">Set your picture</span>
-                </DropdownMenuItem>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border-2 border-white shadow-md overflow-hidden bg-gray-50">
+                  <img
+                    src={profilePic}
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </button>
 
-                <DropdownMenuItem
-                  onSelect={handleSignOut}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-black/10 hover:bg-red-600 hover:text-white transition-all cursor-pointer"
-                >
-                  <LogOut size={18} />
-                  <span className="font-bold">Sign Out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              {isProfileOpen && (
+                <div className="absolute right-0 top-full mt-2 z-50 bg-[#FF6B35] text-white w-56 shadow-2xl rounded-2xl border border-white/20 p-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      fileInputRef.current?.click();
+                      setIsProfileOpen(false);
+                    }}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left hover:bg-white hover:text-[#FF6B35] transition-all cursor-pointer mb-1"
+                  >
+                    <ImagePlus size={18} />
+                    <span className="font-medium">Set your picture</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left bg-black/10 hover:bg-red-600 hover:text-white transition-all cursor-pointer"
+                  >
+                    <LogOut size={18} />
+                    <span className="font-bold">Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             <div className="block text-left">
               <p className="font-semibold text-[12px] sm:text-[13px] md:text-[15px] text-[#FF6B35] leading-none mb-1">
